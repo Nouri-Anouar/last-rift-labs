@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 const CheckCircle = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
@@ -12,7 +14,7 @@ const ArrowRight = () => (
   </svg>
 );
 
-const styles = {
+const styles : Record<string, CSSProperties> = {
   page: {
     minHeight: '100vh',
     width: "100%",
