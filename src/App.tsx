@@ -31,6 +31,7 @@ const styles : Record<string, CSSProperties> = {
     boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.3)',
   },
   headerContent: {
+    maxWidth: '1200px',
     margin: '0 auto',
     padding: '1rem 1.5rem',
     display: 'flex',
@@ -48,6 +49,7 @@ const styles : Record<string, CSSProperties> = {
     margin: 0,
   },
   container: {
+    maxWidth: '1200px',
     margin: '0 auto',
     padding: '3rem 1.5rem',
   },
