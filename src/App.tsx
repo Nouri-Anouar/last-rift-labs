@@ -1,534 +1,962 @@
-import type { CSSProperties } from "react";
+import React from 'react';
 
-const CheckCircle = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-  </svg>
-);
+// ============================================================================
+// REUSABLE COMPONENTS - Defined outside to prevent recreation on each render
+// ============================================================================
 
-const ArrowRight = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <line x1="5" y1="12" x2="19" y2="12"></line>
-    <polyline points="12 5 19 12 12 19"></polyline>
-  </svg>
-);
+interface RailProps {
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+}
 
-const styles : Record<string, CSSProperties> = {
-  page: {
-    minHeight: '100vh',
-    width: "100%",
-    background: 'linear-gradient(to bottom right, #0a0a0a, #18181b)',
-    color: '#fff',
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-  },
-  header: {
-    background: '#18181b',
-    borderBottom: '1px solid #27272a',
-    position: 'sticky',
-    top: 0,
-    zIndex: 50,
-    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.3)',
-  },
-  headerContent: {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '1rem 1.5rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  title: {
-    fontSize: '1.5rem',
-    fontWeight: 'bold',
-    margin: 0,
-  },
-  subtitle: {
-    fontSize: '0.875rem',
-    color: '#a1a1aa',
-    margin: 0,
-  },
-  container: {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '3rem 1.5rem',
-  },
-  hero: {
-    marginBottom: '4rem',
-    textAlign: 'center',
-  },
-  badge: {
-    display: 'inline-block',
-    padding: '0.25rem 0.75rem',
-    background: '#27272a',
-    color: '#fafafa',
-    fontSize: '0.875rem',
-    borderRadius: '0.375rem',
-    border: '1px solid #3f3f46',
-    marginBottom: '1rem',
-  },
-  heroTitle: {
-    fontSize: '3rem',
-    fontWeight: 'bold',
-    margin: '0 0 1rem 0',
-    lineHeight: '1.2',
-  },
-  heroText: {
-    fontSize: '1.25rem',
-    color: '#a1a1aa',
-    maxWidth: '768px',
-    margin: '0 auto',
-  },
-  card: {
-    background: '#18181b',
-    border: '2px solid #27272a',
-    borderRadius: '0.5rem',
-    marginBottom: '2rem',
-    transition: 'border-color 0.2s',
-  },
-  cardHover: {
-    borderColor: '#3f3f46',
-  },
-  cardHeader: {
-    padding: '1.5rem',
-  },
-  cardTitle: {
-    fontSize: '1.5rem',
-    fontWeight: '600',
-    margin: '0 0 0.5rem 0',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.5rem',
-  },
-  cardContent: {
-    padding: '0 1.5rem 1.5rem 1.5rem',
-  },
-  text: {
-    color: '#d4d4d8',
-    lineHeight: '1.6',
-    margin: '0 0 1rem 0',
-  },
-  list: {
-    listStyle: 'none',
-    padding: 0,
-    margin: 0,
-  },
-  listItem: {
+const Rail: React.FC<RailProps> = ({ children, style = {} }) => (
+  <div style={{
+    width: '80px',
+    backgroundColor: '#0D1117',
+    borderRight: '1px solid #1F2937',
     display: 'flex',
     alignItems: 'flex-start',
-    gap: '0.5rem',
-    marginBottom: '0.75rem',
-    color: '#d4d4d8',
-  },
-  button: {
-    padding: '0.75rem 2rem',
-    background: '#fff',
-    color: '#18181b',
-    border: 'none',
-    borderRadius: '0.375rem',
-    fontSize: '1rem',
-    fontWeight: '500',
-    cursor: 'pointer',
-    transition: 'background 0.2s',
-  },
-  buttonOutline: {
-    padding: '0.75rem 2rem',
-    background: 'transparent',
-    color: '#d4d4d8',
-    border: '1px solid #52525b',
-    borderRadius: '0.375rem',
-    fontSize: '1rem',
-    fontWeight: '500',
-    cursor: 'pointer',
-    transition: 'background 0.2s',
-  },
-  grid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: '1rem',
-  },
-  grid2: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-    gap: '1.5rem',
-  },
-  pricingCard: {
-    background: '#27272a',
-    border: '1px solid #3f3f46',
-    borderRadius: '0.5rem',
-    padding: '1rem',
-  },
-  priceAmount: {
-    fontSize: '1.5rem',
-    fontWeight: 'bold',
-    color: '#fafafa',
-    margin: '0.5rem 0',
-  },
-  separator: {
-    height: '1px',
-    background: '#27272a',
-    margin: '1rem 0',
-  },
-  cta: {
-    background: 'linear-gradient(to right, #27272a, #18181b)',
-    borderRadius: '0.75rem',
-    padding: '2rem',
-    textAlign: 'center',
-    border: '2px solid #3f3f46',
-    marginTop: '2rem',
-  },
-  ctaTitle: {
-    fontSize: '2rem',
-    fontWeight: 'bold',
-    margin: '0 0 1rem 0',
-  },
-  ctaButtons: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '1rem',
     justifyContent: 'center',
-    marginTop: '1.5rem',
-  },
-  stepNumber: {
-    background: '#fff',
-    color: '#18181b',
-    width: '32px',
-    height: '32px',
-    borderRadius: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontWeight: 'bold',
-    flexShrink: 0,
-  },
-};
+    paddingTop: '32px',
+    ...style
+  }}>
+    {children}
+  </div>
+);
 
-export default function App() {
+interface SectionFrameProps {
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+}
+
+const SectionFrame: React.FC<SectionFrameProps> = ({ children, style = {} }) => (
+  <div style={{
+    border: '1px solid #1F2937',
+    backgroundColor: '#0D1117',
+    position: 'relative' as const,
+    boxShadow: 'inset 0 0 0 1px rgba(255, 255, 255, 0.02)',
+    ...style
+  }}>
+    {children}
+  </div>
+);
+
+interface ClippedCardProps {
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+}
+
+const ClippedCard: React.FC<ClippedCardProps> = ({ children, style = {} }) => (
+  <div style={{
+    backgroundColor: '#161B22',
+    border: '1px solid #30363D',
+    clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)',
+    padding: '28px',
+    position: 'relative' as const,
+    ...style
+  }}>
+    {children}
+  </div>
+);
+
+interface MetricCardProps {
+  number: string;
+  label: string;
+}
+
+const MetricCard: React.FC<MetricCardProps> = ({ number, label }) => (
+  <div style={{
+    border: '1px solid #30363D',
+    padding: '32px 24px',
+    textAlign: 'center' as const,
+    backgroundColor: '#0D1117',
+  }}>
+    <div style={{
+      fontSize: '48px',
+      fontWeight: '700',
+      color: '#FFFFFF',
+      marginBottom: '8px',
+      fontFamily: 'monospace',
+      letterSpacing: '-0.02em',
+    }}>
+      {number}
+    </div>
+    <div style={{
+      fontSize: '12px',
+      color: '#8B949E',
+      textTransform: 'uppercase' as const,
+      letterSpacing: '0.1em',
+      fontWeight: '600',
+    }}>
+      {label}
+    </div>
+  </div>
+);
+
+interface ButtonProps {
+  children: React.ReactNode;
+  primary?: boolean;
+  style?: React.CSSProperties;
+}
+
+const Button: React.FC<ButtonProps> = ({ children, primary = false, style = {} }) => (
+  <button style={{
+    backgroundColor: primary ? '#0F62FE' : 'transparent',
+    border: `1px solid ${primary ? '#0F62FE' : '#30363D'}`,
+    color: '#FFFFFF',
+    padding: '14px 32px',
+    fontSize: '14px',
+    fontWeight: '600',
+    cursor: 'pointer',
+    textTransform: 'uppercase' as const,
+    letterSpacing: '0.05em',
+    transition: 'all 0.15s ease',
+    clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)',
+    ...style
+  }}>
+    {children}
+  </button>
+);
+
+export default function LastRiftLabs() {
+  // ============================================================================
+  // STYLES
+  // ============================================================================
+
+  const styles = {
+    page: {
+      backgroundColor: '#010409',
+      color: '#C9D1D9',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
+      minHeight: '100vh',
+      position: 'relative' as const,
+      overflow: 'hidden' as const,
+    },
+    backgroundGrid: {
+      position: 'fixed' as const,
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundImage: `
+        linear-gradient(to right, rgba(139, 148, 158, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(139, 148, 158, 0.02) 1px, transparent 1px)
+      `,
+      backgroundSize: '20px 20px',
+      pointerEvents: 'none' as const,
+      zIndex: 0,
+    },
+    content: {
+      position: 'relative' as const,
+      zIndex: 1,
+    },
+    container: {
+      maxWidth: '1400px',
+      margin: '0 auto',
+    },
+    sectionLabel: {
+      fontSize: '11px',
+      color: '#0F62FE',
+      textTransform: 'uppercase' as const,
+      letterSpacing: '0.15em',
+      fontWeight: '700',
+      fontFamily: 'monospace',
+    },
+    sectionIndex: {
+      fontSize: '14px',
+      color: '#30363D',
+      fontWeight: '700',
+      fontFamily: 'monospace',
+      writingMode: 'vertical-rl' as const,
+      transform: 'rotate(180deg)',
+    },
+    h1: {
+      fontSize: '64px',
+      fontWeight: '700',
+      lineHeight: 1.1,
+      margin: '0 0 24px 0',
+      color: '#FFFFFF',
+      letterSpacing: '-0.02em',
+    },
+    h2: {
+      fontSize: '42px',
+      fontWeight: '700',
+      lineHeight: 1.2,
+      margin: '0 0 16px 0',
+      color: '#FFFFFF',
+      letterSpacing: '-0.01em',
+    },
+    h3: {
+      fontSize: '18px',
+      fontWeight: '600',
+      margin: '0 0 12px 0',
+      color: '#FFFFFF',
+      letterSpacing: '-0.01em',
+    },
+    body: {
+      fontSize: '15px',
+      lineHeight: 1.6,
+      color: '#8B949E',
+      margin: '0',
+    },
+    bodyLarge: {
+      fontSize: '18px',
+      lineHeight: 1.55,
+      color: '#C9D1D9',
+      margin: '0',
+    },
+  };
+
+  // ============================================================================
+  // RENDER
+  // ============================================================================
+
   return (
     <div style={styles.page}>
-      {/* Header */}
-      <header style={styles.header}>
-        <div style={styles.headerContent}>
-          <div>
-            <h1 style={styles.title}>Last Rift Labs</h1>
-            <p style={styles.subtitle}>UEFN & UGC Development Studio + Community</p>
-          </div>
-          <button style={styles.button}>Book Free Consultation</button>
-        </div>
-      </header>
+      <div style={styles.backgroundGrid} />
+      <div style={styles.content}>
 
-      <div style={styles.container}>
-        {/* Hero */}
-        <section style={styles.hero}>
-          <span style={styles.badge}>Built for Builders, Not Spectators</span>
-          <h2 style={styles.heroTitle}>
-            We help UEFN creators ship games,<br />not just build prototypes
-          </h2>
-          <p style={styles.heroText}>
-            Education, consulting, and hands-on support for Fortnite creators stuck on shipping.
-          </p>
-        </section>
-
-        {/* Who We Are */}
-        <div style={styles.card}>
-          <div style={styles.cardHeader}>
-            <h3 style={styles.cardTitle}>Who We Are</h3>
-          </div>
-          <div style={styles.cardContent}>
-            <p style={styles.text}>
-              Last Rift Labs is a UEFN-focused studio and community platform. We actively build and ship Fortnite UGC games while supporting other creators through education, consulting, and embedded development.
-            </p>
-            <p style={{...styles.text, fontWeight: '500'}}>
-              Our mission: raise the quality and velocity of UEFN development by removing blockers, simplifying complexity, and sharing production-ready systems — not surface-level advice.
-            </p>
-          </div>
-        </div>
-
-        {/* Who This Is For */}
-        <div style={styles.card}>
-          <div style={styles.cardHeader}>
-            <h3 style={styles.cardTitle}>Who This Is For</h3>
-          </div>
-          <div style={styles.cardContent}>
-            <p style={{...styles.text, fontWeight: '500'}}>Creators who:</p>
-            <ul style={styles.list}>
-              {[
-                "Don't know where to start but want to get started!",
-                'Have a playable UEFN project, but can\'t get it to "ship quality"',
-                "Are blocked by Verse, systems design, or architecture",
-                "Struggle with scope, iteration speed, or live updates",
-                "Need structure, not motivation",
-                "Want your content featured on our platforms",
-                "Looking for assets or concept art"
-              ].map((item, idx) => (
-                <li key={idx} style={styles.listItem}>
-                  <span style={{color: '#71717a', marginTop: '2px'}}><CheckCircle /></span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-            <div style={{background: '#27272a', border: '1px solid #3f3f46', borderRadius: '0.5rem', padding: '1rem', marginTop: '1.5rem'}}>
-              <p style={{color: '#e4e4e7', fontWeight: '500', margin: 0}}>
-                Not a fit if: you're looking for hype or generic tutorials.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Free Resources */}
-        <div style={{...styles.card, borderColor: '#3f3f46'}}>
-          <div style={styles.cardHeader}>
-            <h3 style={styles.cardTitle}>Free Resources</h3>
-            <p style={{fontSize: '0.875rem', color: '#a1a1aa', margin: '0.5rem 0 0 0'}}>
-              This isn't content for views — it's shared infrastructure, patterns, and workflows you can actually ship with.
-            </p>
-          </div>
-          <div style={styles.cardContent}>
-            <div style={styles.grid}>
-              {[
-                { title: "Weekly Live Workshops", desc: "Real problems, real projects" },
-                { title: "YouTube Tutorials", desc: "Verse, systems, production patterns" },
-                { title: "Open Discord", desc: "Async dev support" },
-                { title: "Free 30-Minute 1:1", desc: "Builder consultation" }
-              ].map((resource, idx) => (
-                <div key={idx} style={styles.pricingCard}>
-                  <h4 style={{fontWeight: '600', color: '#fff', margin: '0 0 0.25rem 0'}}>{resource.title}</h4>
-                  <p style={{fontSize: '0.875rem', color: '#a1a1aa', margin: 0}}>{resource.desc}</p>
+        {/* HERO SECTION */}
+        <div style={{ padding: '0', margin: '0' }}>
+          <div style={styles.container}>
+            <div style={{ display: 'flex', minHeight: '100vh' }}>
+              <Rail>
+                <div style={{
+                  ...styles.sectionLabel,
+                  writingMode: 'vertical-rl' as const,
+                  transform: 'rotate(180deg)',
+                  letterSpacing: '0.2em',
+                }}>
+                  LAST RIFT LABS
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Consultation */}
-        <div style={styles.card}>
-          <div style={styles.cardHeader}>
-            <h3 style={styles.cardTitle}>Free 30-Minute Builder Consult</h3>
-            <p style={{fontSize: '1rem', color: '#a1a1aa', margin: '0.5rem 0 0 0'}}>
-              Not a sales call. A working session.
-            </p>
-          </div>
-          <div style={styles.cardContent}>
-            <div style={styles.grid2}>
-              <div>
-                <h4 style={{fontWeight: '600', color: '#fff', marginBottom: '0.75rem'}}>We:</h4>
-                <ul style={styles.list}>
-                  {["Review your actual project", "Identify real blockers", "Map fast, realistic paths forward"].map((item, idx) => (
-                    <li key={idx} style={styles.listItem}>
-                      <span style={{color: '#71717a', marginTop: '2px'}}><ArrowRight /></span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h4 style={{fontWeight: '600', color: '#fff', marginBottom: '0.75rem'}}>You leave with:</h4>
-                <ul style={styles.list}>
-                  {["Clear priorities", "Reduced scope confusion", "A practical next-step plan"].map((item, idx) => (
-                    <li key={idx} style={styles.listItem}>
-                      <span style={{color: '#71717a', marginTop: '2px'}}><CheckCircle /></span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <p style={{fontSize: '0.875rem', color: '#a1a1aa', marginTop: '1rem', fontStyle: 'italic'}}>
-              Even if you never work with us again.
-            </p>
-          </div>
-        </div>
-
-        {/* Paid Tiers */}
-        <div style={{marginBottom: '2rem'}}>
-          <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', color: '#fff', marginBottom: '1.5rem'}}>Paid Consulting & Partnerships</h3>
-          <div style={styles.grid2}>
-            {/* Tier 1 */}
-            <div style={styles.card}>
-              <div style={styles.cardHeader}>
-                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem'}}>
-                  <h4 style={{fontSize: '1.25rem', fontWeight: '600', color: '#fff', margin: 0}}>Tier 1</h4>
-                  <span style={{...styles.badge, margin: 0}}>$100–$500/mo</span>
-                </div>
-                <p style={{fontSize: '1rem', color: '#a1a1aa', margin: '0.5rem 0'}}>Bi-Weekly Consulting</p>
-                <p style={{color: '#d4d4d8', margin: '0.5rem 0 0 0'}}>
-                  For teams that want to move faster and break fewer things.
-                </p>
-              </div>
-              <div style={styles.cardContent}>
-                <div>
-                  <h5 style={{fontWeight: '600', color: '#fff', marginBottom: '0.5rem'}}>Outcomes:</h5>
-                  <ul style={{...styles.list, fontSize: '0.875rem', marginBottom: '1rem'}}>
-                    <li style={{marginBottom: '0.25rem'}}>• Faster feature shipping</li>
-                    <li style={{marginBottom: '0.25rem'}}>• Cleaner Verse architecture</li>
-                    <li style={{marginBottom: '0.25rem'}}>• Fewer blockers</li>
-                    <li style={{marginBottom: '0.25rem'}}>• Better iteration flow</li>
-                  </ul>
-                </div>
-                <div style={styles.separator}></div>
-                <div>
-                  <h5 style={{fontWeight: '600', color: '#fff', marginBottom: '0.5rem'}}>Includes:</h5>
-                  <ul style={{...styles.list, fontSize: '0.875rem'}}>
-                    <li style={{marginBottom: '0.25rem'}}>• Bi-weekly live reviews</li>
-                    <li style={{marginBottom: '0.25rem'}}>• Verse & system audits</li>
-                    <li style={{marginBottom: '0.25rem'}}>• Production guidance</li>
-                    <li style={{marginBottom: '0.25rem'}}>• Async Discord support</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            {/* Tier 2 */}
-            <div style={{...styles.card, borderColor: '#3f3f46'}}>
-              <div style={styles.cardHeader}>
-                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem'}}>
-                  <h4 style={{fontSize: '1.25rem', fontWeight: '600', color: '#fff', margin: 0}}>Tier 2</h4>
-                  <span style={{...styles.badge, background: '#fff', color: '#18181b', margin: 0}}>$1K–$4K/mo</span>
-                </div>
-                <p style={{fontSize: '1rem', color: '#a1a1aa', margin: '0.5rem 0'}}>Embedded Partnership</p>
-                <p style={{color: '#d4d4d8', margin: '0.5rem 0 0 0'}}>
-                  We become part of your team.
-                </p>
-              </div>
-              <div style={styles.cardContent}>
-                <div>
-                  <h5 style={{fontWeight: '600', color: '#fff', marginBottom: '0.5rem'}}>Outcomes:</h5>
-                  <ul style={{...styles.list, fontSize: '0.875rem', marginBottom: '1rem'}}>
-                    <li style={{marginBottom: '0.25rem'}}>• Features shipped faster</li>
-                    <li style={{marginBottom: '0.25rem'}}>• Reduced technical debt</li>
-                    <li style={{marginBottom: '0.25rem'}}>• Better performance & stability</li>
-                    <li style={{marginBottom: '0.25rem'}}>• Stronger production discipline</li>
-                  </ul>
-                </div>
-                <div style={styles.separator}></div>
-                <div>
-                  <h5 style={{fontWeight: '600', color: '#fff', marginBottom: '0.5rem'}}>Includes:</h5>
-                  <ul style={{...styles.list, fontSize: '0.875rem'}}>
-                    <li style={{marginBottom: '0.25rem'}}>• Direct code contributions</li>
-                    <li style={{marginBottom: '0.25rem'}}>• System & feature development</li>
-                    <li style={{marginBottom: '0.25rem'}}>• Refactors & optimization</li>
-                    <li style={{marginBottom: '0.25rem'}}>• Deadline & milestone support</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Pipeline */}
-        <div style={styles.card}>
-          <div style={styles.cardHeader}>
-            <h3 style={styles.cardTitle}>Our Pipeline</h3>
-          </div>
-          <div style={styles.cardContent}>
-            <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
-              {[
-                { title: "Discover", desc: "Review your live project, not a pitch deck" },
-                { title: "Diagnose", desc: "Identify Verse issues, system risks, scope traps" },
-                { title: "Support", desc: "Consulting or embedded execution" },
-                { title: "Ship", desc: "Help you push updates live" },
-                { title: "Grow", desc: "Improve speed, quality, and confidence over time" }
-              ].map((step, idx) => (
-                <div key={idx} style={{display: 'flex', alignItems: 'flex-start', gap: '1rem'}}>
-                  <div style={styles.stepNumber}>{idx + 1}</div>
-                  <div>
-                    <h4 style={{fontWeight: '600', color: '#fff', margin: '0 0 0.25rem 0'}}>{step.title}</h4>
-                    <p style={{fontSize: '0.875rem', color: '#a1a1aa', margin: 0}}>{step.desc}</p>
+              </Rail>
+              
+              <SectionFrame style={{ flex: 1, margin: '40px 40px 40px 0', display: 'flex' }}>
+                <Rail>
+                  <div style={styles.sectionIndex}>00</div>
+                </Rail>
+                
+                <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '64px', padding: '80px' }}>
+                    <div>
+                      <div style={{ ...styles.sectionLabel, marginBottom: '20px' }}>
+                        A FORTNITE CREATOR HUB
+                      </div>
+                      <h1 style={styles.h1}>
+                        Last Rift Labs
+                      </h1>
+                      <p style={{ ...styles.bodyLarge, marginBottom: '20px', maxWidth: '540px' }}>
+                        Helping Fortnite creators turn unfinished ideas into finished, playable games. A builder led UEFN studio + community for creators who want clarity, momentum, and real progress.
+                      </p>
+                      <p style={{ ...styles.body, marginBottom: '32px', maxWidth: '540px', fontSize: '13px', color: '#6E7681' }}>
+                        Built for Builders. Not spectators. Not theory. Real projects, real support.
+                      </p>
+                      <div style={{ display: 'flex', gap: '16px', marginTop: '40px' }}>
+                        <Button primary>BOOK FREE CALL</Button>
+                      </div>
+                    </div>
+                    
+                    <div style={{
+                      backgroundColor: '#161B22',
+                      border: '1px solid #30363D',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      minHeight: '400px',
+                      position: 'relative' as const,
+                      overflow: 'hidden' as const,
+                    }}>
+                      <iframe
+                        width="100%"
+                        height="100%"
+                        src="https://www.youtube.com/embed/Wf4RGt3zCM8"
+                        title="Fortnite UEFN Gameplay"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        style={{
+                          position: 'absolute' as const,
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: '100%',
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
-              ))}
+              </SectionFrame>
             </div>
           </div>
         </div>
 
-        {/* 3D Art */}
-        <div style={styles.card}>
-          <div style={styles.cardHeader}>
-            <h3 style={styles.cardTitle}>3D Art and Asset Sourcing</h3>
-            <p style={{fontSize: '0.875rem', color: '#a1a1aa', margin: '0.5rem 0 0 0'}}>Need custom UEFN-ready assets?</p>
-          </div>
-          <div style={styles.cardContent}>
-            <div style={{...styles.grid, marginBottom: '1.5rem'}}>
-              <div style={styles.pricingCard}>
-                <h4 style={{fontWeight: '600', color: '#fff', margin: '0 0 0.25rem 0'}}>Simple Models</h4>
-                <p style={styles.priceAmount}>$50–$200</p>
-                <p style={{fontSize: '0.75rem', color: '#a1a1aa', margin: 0}}>per asset</p>
-              </div>
-              <div style={styles.pricingCard}>
-                <h4 style={{fontWeight: '600', color: '#fff', margin: '0 0 0.25rem 0'}}>Complex Models</h4>
-                <p style={styles.priceAmount}>$150–$400</p>
-                <p style={{fontSize: '0.75rem', color: '#a1a1aa', margin: 0}}>per asset</p>
-              </div>
-              <div style={styles.pricingCard}>
-                <h4 style={{fontWeight: '600', color: '#fff', margin: '0 0 0.25rem 0'}}>Model Sets</h4>
-                <p style={styles.priceAmount}>Custom</p>
-                <p style={{fontSize: '0.75rem', color: '#a1a1aa', margin: 0}}>scope-based</p>
-              </div>
+        {/* WHAT THIS IS */}
+        <div style={{ padding: '0 0 80px 0' }}>
+          <div style={styles.container}>
+            <div style={{ display: 'flex' }}>
+              <Rail style={{ height: 'auto' }}>
+                <div style={styles.sectionIndex}>01</div>
+              </Rail>
+              
+              <SectionFrame style={{ flex: 1, margin: '0 40px 0 0' }}>
+                <div style={{ padding: '80px' }}>
+                  <div style={{ marginBottom: '56px' }}>
+                    <div style={{ ...styles.sectionLabel, marginBottom: '16px' }}>WHAT THIS IS</div>
+                    <h2 style={styles.h2}>Community First</h2>
+                    <p style={{ ...styles.bodyLarge, maxWidth: '800px' }}>
+                      Last Rift Labs is a Fortnite‑focused UGC studio and creator hub. We help UEFN creators move from stuck to playable to published through:
+                    </p>
+                  </div>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', marginBottom: '48px' }}>
+                    <ClippedCard>
+                      <h3 style={styles.h3}>Practical Education</h3>
+                      <p style={{ ...styles.body, fontSize: '13px' }}>Real-world workflows and systems</p>
+                    </ClippedCard>
+                    
+                    <ClippedCard>
+                      <h3 style={styles.h3}>Hands-On Support</h3>
+                      <p style={{ ...styles.body, fontSize: '13px' }}>Direct help with your projects</p>
+                    </ClippedCard>
+                    
+                    <ClippedCard>
+                      <h3 style={styles.h3}>Production Systems</h3>
+                      <p style={{ ...styles.body, fontSize: '13px' }}>Structure and process</p>
+                    </ClippedCard>
+                    
+                    <ClippedCard>
+                      <h3 style={styles.h3}>Embedded Development</h3>
+                      <p style={{ ...styles.body, fontSize: '13px' }}>We build with you</p>
+                    </ClippedCard>
+                  </div>
+
+                  <div style={{
+                    borderTop: '1px solid #30363D',
+                    paddingTop: '32px',
+                  }}>
+                    <p style={{ ...styles.body, textAlign: 'center' as const }}>
+                      We actively build and release our own games. Then use what we learn to help other creators finish theirs.
+                    </p>
+                  </div>
+                </div>
+              </SectionFrame>
             </div>
-            <span style={styles.badge}>Concept Art Prices Coming Soon</span>
-            <div style={{marginTop: '1rem'}}>
-              <p style={{fontWeight: '600', color: '#fff', margin: '0 0 0.5rem 0'}}>We provide:</p>
-              <ul style={{...styles.list, fontSize: '0.875rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.5rem'}}>
-                <li>• Vetted 3D artists</li>
-                <li>• Style-matched assets</li>
-                <li>• Production-ready delivery</li>
-                <li>• Quality control</li>
-              </ul>
-              <p style={{fontSize: '0.875rem', color: '#a1a1aa', marginTop: '1rem'}}>
-                We manage the process and retain a 20–30% service margin.
-              </p>
+          </div>
+        </div>
+
+        {/* THE PROBLEM */}
+        <div style={{ padding: '0 0 80px 0' }}>
+          <div style={styles.container}>
+            <div style={{ display: 'flex' }}>
+              <Rail style={{ height: 'auto' }}>
+                <div style={styles.sectionIndex}>02</div>
+              </Rail>
+              
+              <SectionFrame style={{ flex: 1, margin: '0 40px 0 0' }}>
+                <div style={{ padding: '80px' }}>
+                  <div style={{ marginBottom: '48px' }}>
+                    <div style={{ ...styles.sectionLabel, marginBottom: '16px' }}>THE PROBLEM WE SOLVE</div>
+                    <h2 style={styles.h2}>Most creators don't fail because of talent</h2>
+                  </div>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px' }}>
+                    <div>
+                      <h3 style={{ ...styles.h3, marginBottom: '24px', fontSize: '14px', color: '#8B949E' }}>THEY STALL BECAUSE OF:</h3>
+                      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                        {[
+                          'No clear path',
+                          'Too many systems',
+                          'No structure',
+                          'Scope chaos',
+                          'Technical blockers',
+                          'No production process',
+                        ].map((item, i) => (
+                          <li key={i} style={{
+                            ...styles.body,
+                            padding: '10px 0 10px 20px',
+                            position: 'relative' as const,
+                            fontSize: '15px',
+                          }}>
+                            <span style={{ position: 'absolute' as const, left: 0, color: '#0F62FE' }}>▸</span>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <div style={{
+                      backgroundColor: '#161B22',
+                      border: '1px solid #30363D',
+                      padding: '32px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                      <p style={{ ...styles.bodyLarge, textAlign: 'center' as const, margin: 0 }}>
+                        We help turn confusion into clarity and ideas into finished projects.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </SectionFrame>
             </div>
           </div>
         </div>
 
-        {/* Community */}
-        <div style={{...styles.card, borderColor: '#3f3f46'}}>
-          <div style={styles.cardHeader}>
-            <h3 style={styles.cardTitle}>Community First</h3>
-            <p style={{fontSize: '1rem', color: '#a1a1aa', margin: '0.5rem 0 0 0'}}>
-              We're not here to extract value — we're here to build it.
-            </p>
-          </div>
-          <div style={styles.cardContent}>
-            <p style={styles.text}>Last Rift Labs exists to:</p>
-            <ul style={styles.list}>
-              {[
-                "Strengthen the UEFN ecosystem",
-                "Share real production knowledge",
-                "Grow creators, not gatekeep systems",
-                "Build infrastructure the community can use"
-              ].map((item, idx) => (
-                <li key={idx} style={styles.listItem}>
-                  <span style={{color: '#71717a', marginTop: '2px'}}><CheckCircle /></span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-            <p style={{...styles.text, fontWeight: '500', fontStyle: 'italic'}}>
-              This is grassroots, builder-led, and community-driven. We grow by helping others ship.
-            </p>
+        {/* FREE COMMUNITY & RESOURCES */}
+        <div style={{ padding: '0 0 80px 0' }}>
+          <div style={styles.container}>
+            <div style={{ display: 'flex' }}>
+              <Rail style={{ height: 'auto' }}>
+                <div style={styles.sectionIndex}>03</div>
+              </Rail>
+              
+              <SectionFrame style={{ flex: 1, margin: '0 40px 0 0' }}>
+                <div style={{ padding: '80px' }}>
+                  <div style={{ marginBottom: '56px' }}>
+                    <div style={{ ...styles.sectionLabel, marginBottom: '16px' }}>FREE ACCESS</div>
+                    <h2 style={styles.h2}>Community & Resources</h2>
+                    <p style={styles.bodyLarge}>
+                      This is a shared infrastructure built for builders.
+                    </p>
+                  </div>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', marginBottom: '48px' }}>
+                    <ClippedCard>
+                      <h3 style={styles.h3}>Weekly Workshops</h3>
+                      <p style={{ ...styles.body, fontSize: '13px' }}>Real projects, real problems</p>
+                    </ClippedCard>
+                    
+                    <ClippedCard>
+                      <h3 style={styles.h3}>YouTube Tutorials</h3>
+                      <p style={{ ...styles.body, fontSize: '13px' }}>Verse, systems, production</p>
+                    </ClippedCard>
+                    
+                    <ClippedCard>
+                      <h3 style={styles.h3}>Open Discord</h3>
+                      <p style={{ ...styles.body, fontSize: '13px' }}>Async dev support</p>
+                    </ClippedCard>
+                    
+                    <ClippedCard>
+                      <h3 style={styles.h3}>Free Consultation</h3>
+                      <p style={{ ...styles.body, fontSize: '13px' }}>30-minute builder review</p>
+                    </ClippedCard>
+                  </div>
+                  
+                  <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+                    <Button>JOIN DISCORD</Button>
+                    <Button>WATCH TUTORIALS</Button>
+                    <Button primary>BOOK FREE CALL</Button>
+                  </div>
+                </div>
+              </SectionFrame>
+            </div>
           </div>
         </div>
 
-        {/* CTA */}
-        <div style={styles.cta}>
-          <h3 style={styles.ctaTitle}>Get Started</h3>
-          <p style={{fontSize: '1.125rem', color: '#d4d4d8', margin: '0 0 1.5rem 0'}}>
-            Build something real. Ship something real.
-          </p>
-          <div style={styles.ctaButtons}>
-            <button style={styles.button}>Book Free Consultation</button>
-            <button style={styles.buttonOutline}>Join the Discord</button>
-            <button style={styles.buttonOutline}>Watch Tutorials</button>
+        {/* FREE CONSULT */}
+        <div style={{ padding: '0 0 80px 0' }}>
+          <div style={styles.container}>
+            <div style={{ display: 'flex' }}>
+              <Rail style={{ height: 'auto' }}>
+                <div style={styles.sectionIndex}>04</div>
+              </Rail>
+              
+              <SectionFrame style={{ flex: 1, margin: '0 40px 0 0' }}>
+                <div style={{ padding: '80px' }}>
+                  <div style={{ marginBottom: '56px' }}>
+                    <div style={{ ...styles.sectionLabel, marginBottom: '16px' }}>NO COMMITMENT</div>
+                    <h2 style={styles.h2}>Free 30-Minute Builder Consult</h2>
+                  </div>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px' }}>
+                    <div style={{
+                      backgroundColor: '#161B22',
+                      border: '1px solid #30363D',
+                      padding: '32px',
+                    }}>
+                      <h3 style={{ ...styles.h3, marginBottom: '24px', fontSize: '14px', color: '#8B949E' }}>WE:</h3>
+                      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                        {[
+                          'Review your real project',
+                          'Identify actual blockers',
+                          'Clarify whats slowing you down',
+                          'Map realistic next steps',
+                        ].map((item, i) => (
+                          <li key={i} style={{
+                            ...styles.body,
+                            padding: '8px 0 8px 20px',
+                            position: 'relative' as const,
+                            fontSize: '14px',
+                          }}>
+                            <span style={{ position: 'absolute' as const, left: 0, color: '#0F62FE' }}>▸</span>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <div style={{
+                      backgroundColor: '#161B22',
+                      border: '1px solid #30363D',
+                      padding: '32px',
+                    }}>
+                      <h3 style={{ ...styles.h3, marginBottom: '24px', fontSize: '14px', color: '#8B949E' }}>YOU LEAVE WITH:</h3>
+                      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                        {[
+                          'Clear priorities',
+                          'Reduced scope confusion',
+                          'A practical action plan',
+                          'Direction you can execute',
+                        ].map((item, i) => (
+                          <li key={i} style={{
+                            ...styles.body,
+                            padding: '8px 0 8px 20px',
+                            position: 'relative' as const,
+                            fontSize: '14px',
+                          }}>
+                            <span style={{ position: 'absolute' as const, left: 0, color: '#0F62FE' }}>▸</span>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                  
+                  <div style={{
+                    borderTop: '1px solid #30363D',
+                    marginTop: '48px',
+                    paddingTop: '32px',
+                    textAlign: 'center' as const,
+                  }}>
+                    <p style={{ ...styles.body, marginBottom: '24px' }}>
+                      Even if you never work with us again.
+                    </p>
+                    <Button primary>BOOK YOUR FREE CALL</Button>
+                  </div>
+                </div>
+              </SectionFrame>
+            </div>
           </div>
         </div>
 
-        {/* Footer */}
-        <div style={{marginTop: '2rem', textAlign: 'center'}}>
-          <p style={{fontSize: '0.875rem', color: '#71717a'}}>
-            Past work examples, case studies, metrics, and testimonials coming soon.
-          </p>
+        {/* HOW WE HELP */}
+        <div style={{ padding: '0 0 80px 0' }}>
+          <div style={styles.container}>
+            <div style={{ display: 'flex' }}>
+              <Rail style={{ height: 'auto' }}>
+                <div style={styles.sectionIndex}>05</div>
+              </Rail>
+              
+              <SectionFrame style={{ flex: 1, margin: '0 40px 0 0' }}>
+                <div style={{ padding: '80px' }}>
+                  <div style={{ marginBottom: '56px' }}>
+                    <div style={{ ...styles.sectionLabel, marginBottom: '16px' }}>PAID SERVICES</div>
+                    <h2 style={styles.h2}>How We Help</h2>
+                  </div>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
+                    {/* Builder Support */}
+                    <div style={{
+                      backgroundColor: '#161B22',
+                      border: '1px solid #30363D',
+                      padding: '40px',
+                    }}>
+                      <h3 style={{ ...styles.h3, fontSize: '24px', marginBottom: '8px' }}>Builder Support</h3>
+                      <p style={{ ...styles.body, marginBottom: '32px', fontSize: '13px' }}>
+                        For creators who want momentum and structure.
+                      </p>
+                      
+                      <div style={{ marginBottom: '24px' }}>
+                        <div style={{ ...styles.sectionLabel, marginBottom: '12px', fontSize: '10px' }}>OUTCOMES</div>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                          {[
+                            'Faster progress',
+                            'Cleaner systems',
+                            'Fewer blockers',
+                            'Better iteration flow',
+                          ].map((item, i) => (
+                            <li key={i} style={{
+                              ...styles.body,
+                              padding: '6px 0 6px 20px',
+                              position: 'relative' as const,
+                              fontSize: '13px',
+                            }}>
+                              <span style={{ position: 'absolute' as const, left: 0, color: '#0F62FE' }}>▸</span>
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      
+                      <div>
+                        <div style={{ ...styles.sectionLabel, marginBottom: '12px', fontSize: '10px' }}>INCLUDES</div>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                          {[
+                            'Project reviews',
+                            'Verse & system audits',
+                            'Production planning',
+                            'Async support',
+                          ].map((item, i) => (
+                            <li key={i} style={{
+                              ...styles.body,
+                              padding: '6px 0 6px 20px',
+                              position: 'relative' as const,
+                              fontSize: '13px',
+                            }}>
+                              <span style={{ position: 'absolute' as const, left: 0, color: '#0F62FE' }}>▸</span>
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                    
+                    {/* Embedded Partnership */}
+                    <div style={{
+                      backgroundColor: '#161B22',
+                      border: '1px solid #30363D',
+                      padding: '40px',
+                    }}>
+                      <h3 style={{ ...styles.h3, fontSize: '24px', marginBottom: '8px' }}>Embedded Partnership</h3>
+                      <p style={{ ...styles.body, marginBottom: '32px', fontSize: '13px' }}>
+                        For teams that want execution power.
+                      </p>
+                      
+                      <div style={{ marginBottom: '24px' }}>
+                        <div style={{ ...styles.sectionLabel, marginBottom: '12px', fontSize: '10px' }}>OUTCOMES</div>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                          {[
+                            'Features shipped',
+                            'Reduced technical debt',
+                            'Better performance',
+                            'Stronger production systems',
+                          ].map((item, i) => (
+                            <li key={i} style={{
+                              ...styles.body,
+                              padding: '6px 0 6px 20px',
+                              position: 'relative' as const,
+                              fontSize: '13px',
+                            }}>
+                              <span style={{ position: 'absolute' as const, left: 0, color: '#0F62FE' }}>▸</span>
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      
+                      <div>
+                        <div style={{ ...styles.sectionLabel, marginBottom: '12px', fontSize: '10px' }}>INCLUDES</div>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                          {[
+                            'Direct code contributions',
+                            'System & feature development',
+                            'Refactors & optimization',
+                            'Milestone support',
+                          ].map((item, i) => (
+                            <li key={i} style={{
+                              ...styles.body,
+                              padding: '6px 0 6px 20px',
+                              position: 'relative' as const,
+                              fontSize: '13px',
+                            }}>
+                              <span style={{ position: 'absolute' as const, left: 0, color: '#0F62FE' }}>▸</span>
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </SectionFrame>
+            </div>
+          </div>
         </div>
+
+        {/* PIPELINE */}
+        <div style={{ padding: '0 0 80px 0' }}>
+          <div style={styles.container}>
+            <div style={{ display: 'flex' }}>
+              <Rail style={{ height: 'auto' }}>
+                <div style={styles.sectionIndex}>06</div>
+              </Rail>
+              
+              <SectionFrame style={{ flex: 1, margin: '0 40px 0 0' }}>
+                <div style={{ padding: '80px' }}>
+                  <div style={{ marginBottom: '56px' }}>
+                    <div style={{ ...styles.sectionLabel, marginBottom: '16px' }}>OUR PROCESS</div>
+                    <h2 style={styles.h2}>Pipeline</h2>
+                  </div>
+                  
+                  <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                    {[
+                      { title: 'Assess', desc: 'Review your live project' },
+                      { title: 'Understand', desc: 'Identify blockers' },
+                      { title: 'Build', desc: 'Choose a support path' },
+                      { title: 'Publish', desc: 'Push updates live' },
+                      { title: 'Improve', desc: 'Improve speed, quality, and confidence' },
+                    ].map((step, i, arr) => (
+                      <React.Fragment key={i}>
+                        <div style={{
+                          flex: 1,
+                          backgroundColor: '#161B22',
+                          border: '1px solid #30363D',
+                          padding: '32px 24px',
+                        }}>
+                          <h3 style={{ ...styles.h3, marginBottom: '8px', color: '#0F62FE' }}>{step.title}</h3>
+                          <p style={{ ...styles.body, fontSize: '13px' }}>{step.desc}</p>
+                        </div>
+                        {i < arr.length - 1 && (
+                          <div style={{
+                            width: '24px',
+                            height: '1px',
+                            backgroundColor: '#30363D',
+                            alignSelf: 'center',
+                            position: 'relative' as const,
+                            top: '-20px',
+                          }} />
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </div>
+              </SectionFrame>
+            </div>
+          </div>
+        </div>
+
+        {/* 3D ART & ASSET SUPPORT */}
+        <div style={{ padding: '0 0 80px 0' }}>
+          <div style={styles.container}>
+            <div style={{ display: 'flex' }}>
+              <Rail style={{ height: 'auto' }}>
+                <div style={styles.sectionIndex}>07</div>
+              </Rail>
+              
+              <SectionFrame style={{ flex: 1, margin: '0 40px 0 0' }}>
+                <div style={{ padding: '80px' }}>
+                  <div style={{ marginBottom: '48px' }}>
+                    <div style={{ ...styles.sectionLabel, marginBottom: '16px' }}>PRODUCTION ASSETS</div>
+                    <h2 style={styles.h2}>3D Art & Asset Support</h2>
+                    <p style={styles.bodyLarge}>
+                      Need Production‑ready assets?
+                    </p>
+                  </div>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px' }}>
+                    <div>
+                      <h3 style={{ ...styles.h3, marginBottom: '24px' }}>We provide:</h3>
+                      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                        {[
+                          'Vetted 3D artists',
+                          'Style matched assets',
+                          'Production-ready delivery',
+                          'Quality control',
+                        ].map((item, i) => (
+                          <li key={i} style={{
+                            ...styles.body,
+                            padding: '10px 0 10px 20px',
+                            position: 'relative' as const,
+                            fontSize: '15px',
+                          }}>
+                            <span style={{ position: 'absolute' as const, left: 0, color: '#0F62FE' }}>▸</span>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <div style={{
+                      backgroundColor: '#161B22',
+                      border: '1px solid #30363D',
+                      padding: '32px',
+                    }}>
+                      <h3 style={{ ...styles.h3, marginBottom: '24px' }}>Pricing:</h3>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span style={styles.body}>Simple models</span>
+                          <span style={{ ...styles.body, fontFamily: 'monospace', color: '#C9D1D9' }}>$50–150</span>
+                        </div>
+                        <div style={{ height: '1px', backgroundColor: '#30363D' }} />
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span style={styles.body}>Complex models</span>
+                          <span style={{ ...styles.body, fontFamily: 'monospace', color: '#C9D1D9' }}>$150+</span>
+                        </div>
+                        <div style={{ height: '1px', backgroundColor: '#30363D' }} />
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span style={styles.body}>Model sets</span>
+                          <span style={{ ...styles.body, fontFamily: 'monospace', color: '#C9D1D9' }}>CONTACT_US</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </SectionFrame>
+            </div>
+          </div>
+        </div>
+
+        {/* PROOF & CREDIBILITY */}
+        <div style={{ padding: '0 0 80px 0' }}>
+          <div style={styles.container}>
+            <div style={{ display: 'flex' }}>
+              <Rail style={{ height: 'auto' }}>
+                <div style={styles.sectionIndex}>08</div>
+              </Rail>
+              
+              <SectionFrame style={{ flex: 1, margin: '0 40px 0 0' }}>
+                <div style={{ padding: '80px' }}>
+                  <div style={{ marginBottom: '56px' }}>
+                    <div style={{ ...styles.sectionLabel, marginBottom: '16px' }}>PROOF & CREDIBILITY</div>
+                    <h2 style={styles.h2}>From Idea to Playable</h2>
+                    <p style={styles.bodyLarge}>
+                      Five years ago, we were just building ideas. Now we've released over 12 projects. We want to help you get from idea to playable.
+                    </p>
+                  </div>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', marginBottom: '48px' }}>
+                    {[
+                      'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&h=400&fit=crop',
+                      'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=600&h=400&fit=crop',
+                      'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=600&h=400&fit=crop',
+                      'https://images.unsplash.com/photo-1556438064-2d7646166914?w=600&h=400&fit=crop'
+                    ].map((src, i) => (
+                      <div 
+                        key={i}
+                        style={{
+                          backgroundColor: '#161B22',
+                          border: '1px solid #30363D',
+                          aspectRatio: '16/9',
+                          overflow: 'hidden' as const,
+                          position: 'relative' as const,
+                        }}
+                      >
+                        <img 
+                          src={src} 
+                          alt={`Project ${i + 1}`}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover' as const,
+                            opacity: 0.7,
+                          }}
+                        />
+                        <div style={{
+                          position: 'absolute' as const,
+                          bottom: '12px',
+                          left: '12px',
+                          fontSize: '11px',
+                          color: '#FFFFFF',
+                          fontFamily: 'monospace',
+                          letterSpacing: '0.1em',
+                          backgroundColor: 'rgba(1, 4, 9, 0.8)',
+                          padding: '4px 8px',
+                          border: '1px solid #30363D',
+                        }}>
+                          PROJECT_{(i + 1).toString().padStart(2, '0')}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div style={{
+                    borderTop: '1px solid #30363D',
+                    paddingTop: '48px',
+                  }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }}>
+                      <MetricCard number="12+" label="Projects Released" />
+                      <MetricCard number="5" label="Years Building" />
+                      <MetricCard number="100%" label="Builder Focused" />
+                    </div>
+                  </div>
+                </div>
+              </SectionFrame>
+            </div>
+          </div>
+        </div>
+
+        {/* COMMUNITY FIRST PHILOSOPHY */}
+        <div style={{ padding: '0 0 80px 0' }}>
+          <div style={styles.container}>
+            <div style={{ display: 'flex' }}>
+              <Rail style={{ height: 'auto' }}>
+                <div style={styles.sectionIndex}>09</div>
+              </Rail>
+              
+              <SectionFrame style={{ flex: 1, margin: '0 40px 0 0' }}>
+                <div style={{ padding: '80px' }}>
+                  <div style={{ marginBottom: '48px' }}>
+                    <div style={{ ...styles.sectionLabel, marginBottom: '16px' }}>OUR VALUES</div>
+                    <h2 style={styles.h2}>Community First</h2>
+                  </div>
+                  
+                  <div style={{
+                    backgroundColor: '#161B22',
+                    border: '1px solid #30363D',
+                    padding: '48px',
+                  }}>
+                    <h3 style={{ ...styles.h3, marginBottom: '24px', fontSize: '16px' }}>We exist to:</h3>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 32px 0' }}>
+                      {[
+                        'Strengthen the UEFN ecosystem',
+                        'Share real production knowledge',
+                        'Grow creators, not gatekeep systems',
+                        'Build infrastructure that the community can use',
+                      ].map((item, i) => (
+                        <li key={i} style={{
+                          ...styles.body,
+                          padding: '10px 0 10px 20px',
+                          position: 'relative' as const,
+                          fontSize: '15px',
+                        }}>
+                          <span style={{ position: 'absolute' as const, left: 0, color: '#0F62FE' }}>▸</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    <div style={{
+                      borderTop: '1px solid #30363D',
+                      paddingTop: '24px',
+                    }}>
+                      <p style={{ ...styles.bodyLarge, textAlign: 'center' as const, margin: 0 }}>
+                        We grow by helping others build.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </SectionFrame>
+            </div>
+          </div>
+        </div>
+
+        {/* FINAL CTA */}
+        <div style={{ padding: '0 0 120px 0' }}>
+          <div style={styles.container}>
+            <div style={{ display: 'flex' }}>
+              <Rail style={{ height: 'auto' }}>
+                <div style={styles.sectionIndex}>10</div>
+              </Rail>
+              
+              <SectionFrame style={{ flex: 1, margin: '0 40px 0 0' }}>
+                <div style={{ padding: '80px', textAlign: 'center' as const }}>
+                  <div style={{ ...styles.sectionLabel, marginBottom: '16px' }}>START HERE</div>
+                  <h2 style={{ ...styles.h2, fontSize: '52px', marginBottom: '24px' }}>Build something real.</h2>
+                  <p style={{ ...styles.bodyLarge, marginBottom: '48px', maxWidth: '600px', margin: '0 auto 48px auto' }}>
+                    Join the community, book a call, or watch our tutorials. No matter where you start, we're here to help you finish.
+                  </p>
+                  <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+                    <Button primary>BOOK FREE BUILDER CALL</Button>
+                    <Button>JOIN THE DISCORD</Button>
+                    <Button>WATCH TUTORIALS</Button>
+                  </div>
+                </div>
+              </SectionFrame>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   );
